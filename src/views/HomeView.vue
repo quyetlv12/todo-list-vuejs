@@ -1,15 +1,13 @@
 <template>
   <main>
-    <!-- <span>{{ todo }}</span> -->
     <InputAddTask />
     <TaskList />
   </main>
 </template>
 <script>
-import { mapGetters, mapState } from "vuex";
 import InputAddTask from "../components/InputAddTask.vue";
 import TaskList from "../components/TaskList.vue";
-import { SUCCESS } from "../configs";
+import { GET_TODO, SUCCESS } from "../configs";
 import { todoListService } from "../services/todoListService";
 import { store } from "../store/store";
 export default {
@@ -24,7 +22,15 @@ export default {
     async fetch() {
       const res = await todoListService.getAllTodo();
       if (res.status === SUCCESS) {
-        store.commit("setTodo", res.data);
+        store.commit(GET_TODO, res.data);
+      }
+    },
+  },
+  watch: {
+    async fetch() {
+      const res = await todoListService.getAllTodo();
+      if (res.status === SUCCESS) {
+        store.commit(GET_TODO, res.data);
       }
     },
   },
